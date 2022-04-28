@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         tasarim.buttonYap.setOnClickListener(view -> {
+            /*
             Constraints calismaKosulu = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
@@ -45,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
                         String durum = workInfo.getState().name();
                         Log.e("Arkaplan işlem durumu",durum);
                     });
+             */
+            WorkRequest istek = new PeriodicWorkRequest.Builder(MyWorkerBildirim.class,15,TimeUnit.MINUTES)
+                    .setInitialDelay(10,TimeUnit.SECONDS)
+                    .build();
 
+            WorkManager.getInstance(this).enqueue(istek);
         });
     }
 }
